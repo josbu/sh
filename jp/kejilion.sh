@@ -3857,7 +3857,7 @@ frps_panel() {
 
 			8)
 				send_stats "IPアクセスをブロックします"
-				echo "アンチジェネレーションドメイン名にアクセスした場合は、この関数を使用して、より安全なIP+ポートアクセスをブロックします。"
+				echo "アンチジェネレーションドメイン名にアクセスした場合、この関数を使用して、より安全なIP+ポートアクセスをブロックできます。"
 				read -e -p "ブロックする必要があるポートを入力してください。" frps_port
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -5124,7 +5124,7 @@ optimize_high_performance() {
 	echo -e "${gl_lv}その他の最適化...${gl_bai}"
 	# レイテンシを減らすために、大きな透明なページを無効にします
 	echo never > /sys/kernel/mm/transparent_hugepage/enabled
-	# numaバランスを無効にします
+	# 禁用 NUMA balancing
 	sysctl -w kernel.numa_balancing=0 2>/dev/null
 
 
