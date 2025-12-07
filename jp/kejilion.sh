@@ -844,12 +844,12 @@ open_port() {
 
 		if ! iptables -C INPUT -p udp --dport $port -j ACCEPT 2>/dev/null; then
 			iptables -I INPUT 1 -p udp --dport $port -j ACCEPT
-			echo "ポートがオープンしました$port"
+			echo "ポートがオープンされました$port"
 		fi
 	done
 
 	save_iptables_rules
-	send_stats "ポートがオープンしました"
+	send_stats "ポートがオープンされました"
 }
 
 
@@ -1963,7 +1963,7 @@ web_security() {
 			  echo "5. SSH 傍受記録の表示 6. Web サイト傍受記録の表示"
 			  echo "7. 防御ルールのリストを表示します。 8. リアルタイム監視のログを表示します。"
 			  echo "------------------------"
-			  echo "11. インターセプトパラメータを設定します。 12. ブロックされているすべての IP をクリアします。"
+			  echo "11. インターセプトパラメータを設定します。 12. ブロックされたすべての IP をクリアします。"
 			  echo "------------------------"
 			  echo "21. クラウドフレア モード 22. 高負荷時に 5 秒間のシールドを有効にする"
 			  echo "------------------------"
@@ -2423,7 +2423,7 @@ block_container_port() {
 	local container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$container_name_or_id")
 
 	if [ -z "$container_ip" ]; then
-		echo "エラー: コンテナを取得できません$container_name_or_idIPアドレス。コンテナ名またはIDが正しいか確認してください。"
+		echo "エラー: コンテナを取得できません$container_name_or_idIPアドレス。コンテナ名またはコンテナIDが正しいか確認してください。"
 		return 1
 	fi
 
@@ -2482,7 +2482,7 @@ clear_container_rules() {
 	local container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$container_name_or_id")
 
 	if [ -z "$container_ip" ]; then
-		echo "エラー: コンテナを取得できません$container_name_or_idIPアドレス。コンテナ名またはIDが正しいか確認してください。"
+		echo "エラー: コンテナを取得できません$container_name_or_idIPアドレス。コンテナ名またはコンテナIDが正しいか確認してください。"
 		return 1
 	fi
 
@@ -3417,7 +3417,7 @@ ldnmp_web_status() {
 
 			8)
 				send_stats "サイト構成を編集する"
-				read -e -p "サイト設定を編集するには、編集するドメイン名を入力してください:" yuming
+				read -e -p "サイト構成を編集するには、編集するドメイン名を入力してください:" yuming
 				install nano
 				nano /home/web/conf.d/$yuming.conf
 				docker exec nginx nginx -s reload
@@ -3857,7 +3857,7 @@ frps_panel() {
 
 			8)
 				send_stats "IPアクセスをブロックする"
-				echo "ドメイン名アクセスを逆にしている場合は、この機能を使用して IP+ポート アクセスをブロックすることができ、より安全になります。"
+				echo "ドメイン名アクセスを反転している場合は、この機能を使用して IP+ポート アクセスをブロックすることができ、より安全です。"
 				read -e -p "ブロックするポートを入力してください:" frps_port
 				block_host_port "$frps_port" "$ipv4_address"
 				;;
@@ -4411,7 +4411,7 @@ sed -i 's/^\s*#\?\s*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_confi
 sed -i 's/^\s*#\?\s*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
 rm -rf /etc/ssh/sshd_config.d/* /etc/ssh/ssh_config.d/*
 restart_ssh
-echo -e "${gl_lv}ROOTログインの設定が完了しました！${gl_bai}"
+echo -e "${gl_lv}ROOTログインの設定は完了です！${gl_bai}"
 
 }
 
@@ -5007,7 +5007,7 @@ clamav_scan() {
 		MOUNT_PARAMS+="--mount type=bind,source=${dir},target=/mnt/host${dir} "
 	done
 
-	# clamscan コマンドのパラメータを構築する
+	# clamscan コマンドパラメータを構築する
 	local SCAN_PARAMS=""
 	for dir in "$@"; do
 		SCAN_PARAMS+="/mnt/host${dir} "
@@ -5072,7 +5072,7 @@ clamav() {
 						;;
 					3)
 					  send_stats "カスタムディレクトリスキャン"
-					  read -e -p "スキャンするディレクトリをスペースで区切って入力してください (例: /etc /var /usr /home /root)。" directories
+					  read -e -p "スキャンするディレクトリをスペースで区切って入力してください (例: /etc /var /usr /home /root):" directories
 					  install_docker
 					  clamav_freshclam
 					  clamav_scan $directories
@@ -5259,7 +5259,7 @@ Kernel_optimize() {
 	root_use
 	while true; do
 	  clear
-	  send_stats "Linuxカーネルチューニング管理"
+	  send_stats "Linux カーネルのチューニング管理"
 	  echo "Linuxシステムのカーネルパラメータの最適化"
 	  echo "ビデオ紹介: https://www.bilibili.com/video/BV1Kb421J7yg?t=0.1"
 	  echo "------------------------------------------------"
@@ -5907,7 +5907,7 @@ mount_partition() {
 	MOUNT_POINT="/mnt/$PARTITION"
 	mkdir -p "$MOUNT_POINT"
 
-	# パーティションをマウントする
+	# パーティションのマウント
 	mount "/dev/$PARTITION" "$MOUNT_POINT"
 
 	if [ $? -eq 0 ]; then
@@ -6759,7 +6759,7 @@ linux_docker() {
 	  echo -e "${gl_kjlan}5.   ${gl_bai}Dockerネットワーク管理"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}Docker ボリューム管理"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}不要な Docker コンテナをクリーンアップし、ネットワーク データ ボリュームをミラーリングします。"
+	  echo -e "${gl_kjlan}7.   ${gl_bai}不要な Docker コンテナをクリーンアップし、ネットワーク データ ボリュームをミラーリングします"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}Dockerソースを変更する"
 	  echo -e "${gl_kjlan}9.   ${gl_bai}daemon.json ファイルを編集する"
@@ -6901,7 +6901,7 @@ linux_docker() {
 				  echo ""
 				  echo "ボリューム操作"
 				  echo "------------------------"
-				  echo "1. 新しいボリュームを作成する"
+				  echo "1. 新しいボリュームを作成します"
 				  echo "2. 指定したボリュームを削除します"
 				  echo "3. すべてのボリュームを削除します"
 				  echo "------------------------"
@@ -7227,7 +7227,7 @@ linux_Oracle() {
 				  local DEFAULT_MEM_UTIL=20
 				  local DEFAULT_SPEEDTEST_INTERVAL=120
 
-				  # ユーザーに CPU コアの数と占有率を入力するよう求めます。ユーザーが Enter キーを押すと、デフォルト値が使用されます。
+				  # CPU コアの数と占有率を入力するようユーザーに求めます。ユーザーが Enter キーを押すと、デフォルト値が使用されます。
 				  read -e -p "CPU コアの数を入力してください [デフォルト:$DEFAULT_CPU_CORE]: " cpu_core
 				  local cpu_core=${cpu_core:-$DEFAULT_CPU_CORE}
 
@@ -10473,7 +10473,7 @@ linux_panel() {
 
 			docker_rum() {
 
-				read -e -p "設定${docker_name}ログインユーザー名:" app_use
+				read -e -p "設定${docker_name}ログインユーザー名：" app_use
 				read -e -p "設定${docker_name}ログインパスワード:" app_passwd
 
 				docker run -d \
@@ -11019,8 +11019,8 @@ EOF
 						;;
 					2)
 						sysctl -w net.ipv6.conf.all.disable_ipv6=0 > /dev/null 2>&1
-						echo "最初にIPv6に切り替えました"
-						send_stats "最初にIPv6に切り替えました"
+						echo "IPv6優先に切り替えました"
+						send_stats "IPv6優先に切り替えました"
 						;;
 
 					3)
@@ -11899,7 +11899,7 @@ EOF
 			  fi
 
 			  echo "プライバシーとセキュリティ"
-			  echo "スクリプトはユーザーによる機能の使用に関するデータを収集し、スクリプト エクスペリエンスを最適化し、より楽しくて便利な機能を作成します。"
+			  echo "スクリプトはユーザーの機能使用に関するデータを収集し、スクリプト エクスペリエンスを最適化し、より楽しくて便利な機能を作成します。"
 			  echo "スクリプトのバージョン番号、使用時間、システムバージョン、CPUアーキテクチャ、マシンの国、使用された機能の名前が収集されます。"
 			  echo "------------------------------------------------"
 			  echo -e "現在のステータス:$status_message"
@@ -12112,7 +12112,7 @@ linux_file() {
 					continue
 				fi
 
-				read -e -p "宛先パス (新しいファイルまたはディレクトリ名を含む) を入力してください:" dest_path
+				read -e -p "宛先パス (新しいファイル名またはディレクトリ名を含む) を入力してください:" dest_path
 				if [ -z "$dest_path" ]; then
 					echo "エラー: 宛先パスを入力してください。"
 					send_stats "ファイルまたはディレクトリのコピーに失敗しました: 宛先パスが指定されていません"
