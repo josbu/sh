@@ -1000,7 +1000,7 @@ manage_country_rules() {
 				exit 1
 			fi
 
-			# 將 IP 新增至 ipset
+			# 將 IP 新增到 ipset
 			while IFS= read -r ip; do
 				ipset add "$ipset_name" "$ip"
 			done < "${country_code,,}.zone"
@@ -1030,7 +1030,7 @@ manage_country_rules() {
 			iptables -D OUTPUT -m set --match-set "$ipset_name" dst -j DROP 2>/dev/null
 			ipset flush "$ipset_name"
 
-			# 將 IP 新增至 ipset
+			# 將 IP 新增到 ipset
 			while IFS= read -r ip; do
 				ipset add "$ipset_name" "$ip"
 			done < "${country_code,,}.zone"
@@ -2388,7 +2388,7 @@ check_docker_image_update() {
 	# 預設標籤為 latest
 	[[ "$image_repo" == "$image_tag" ]] && image_tag="latest"
 
-	# 添加对官方镜像的支持
+	# 添加對官方鏡像的支持
 	[[ "$image_repo" != */* ]] && image_repo="library/$image_repo"
 
 	# 從 Docker Hub API 取得映像發佈時間
@@ -11802,9 +11802,9 @@ EOF
 			  echo -e "3. 設定虛擬內存${gl_huang}1G${gl_bai}"
 			  echo -e "4. 設定SSH埠號為${gl_huang}5522${gl_bai}"
 			  echo -e "5. 開放所有端口"
-			  echo -e "6. 开启${gl_huang}BBR${gl_bai}加速"
+			  echo -e "6. 開啟${gl_huang}BBR${gl_bai}加速"
 			  echo -e "7. 設定時區到${gl_huang}上海${gl_bai}"
-			  echo -e "8. 自動優化DNS位址${gl_huang}海外: 1.1.1.1 8.8.8.8 國內: 223.5.5.5${gl_bai}"
+			  echo -e "8. 自动优化DNS地址${gl_huang}海外: 1.1.1.1 8.8.8.8 國內: 223.5.5.5${gl_bai}"
 			  echo -e "9. 安裝基礎工具${gl_huang}docker wget sudo tar unzip socat btop nano vim${gl_bai}"
 			  echo -e "10. Linux系統核心參數優化切換到${gl_huang}均衡最佳化模式${gl_bai}"
 			  echo "------------------------------------------------"
@@ -12005,7 +12005,7 @@ linux_file() {
 		echo "15. 刪除文件"
 		echo "------------------------"
 		echo "21. 壓縮檔案目錄 22. 解壓縮檔案目錄 23. 行動檔案目錄 24. 複製檔案目錄"
-		echo "25. 传文件至其他服务器"
+		echo "25. 傳文件至其他伺服器"
 		echo "------------------------"
 		echo "0. 返回上一級選單"
 		echo "------------------------"
@@ -12013,7 +12013,7 @@ linux_file() {
 
 		case "$Limiting" in
 			1)  # 进入目录
-				read -e -p "请输入目录名: " dirname
+				read -e -p "請輸入目錄名:" dirname
 				cd "$dirname" 2>/dev/null || echo "無法進入目錄"
 				send_stats "進入目錄"
 				;;
@@ -12061,7 +12061,7 @@ linux_file() {
 				send_stats "修改檔案權限"
 				;;
 			14) # 重命名文件
-				read -e -p "请输入当前文件名: " current_name
+				read -e -p "請輸入目前檔名:" current_name
 				read -e -p "請輸入新檔名:" new_name
 				mv "$current_name" "$new_name" && echo "文件已重新命名" || echo "重新命名失敗"
 				send_stats "重新命名文件"
@@ -12287,7 +12287,7 @@ while true; do
 		  4)
 			  clear
 			  send_stats "備份叢集"
-			  echo -e "請將${gl_huang}/root/cluster/servers.py${gl_bai} 文件下载，完成备份！"
+			  echo -e "請將${gl_huang}/root/cluster/servers.py${gl_bai}檔案下載，完成備份！"
 			  break_end
 			  ;;
 
@@ -12350,7 +12350,7 @@ echo "廣告專欄"
 echo "------------------------"
 echo "將為用戶提供更簡單優雅的推廣與購買體驗！"
 echo ""
-echo -e "服务器优惠"
+echo -e "伺服器優惠"
 echo "------------------------"
 echo -e "${gl_lan}萊卡雲 香港CN2 GIA 韓國雙ISP 美國CN2 GIA 優惠活動${gl_bai}"
 echo -e "${gl_bai}網址: https://www.lcayun.com/aff/ZEXUQBIM${gl_bai}"
@@ -12410,7 +12410,7 @@ while true; do
 	local sh_v_new=$(curl -s ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/kejilion.sh | grep -o 'sh_v="[0-9.]*"' | cut -d '"' -f 2)
 
 	if [ "$sh_v" = "$sh_v_new" ]; then
-		echo -e "${gl_lv}你已经是最新版本！${gl_huang}v$sh_v${gl_bai}"
+		echo -e "${gl_lv}你已經是最新版本！${gl_huang}v$sh_v${gl_bai}"
 		send_stats "腳本已經最新了，無需更新"
 	else
 		echo "發現新版本！"
